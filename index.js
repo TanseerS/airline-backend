@@ -1,20 +1,11 @@
-import {ENVIRONMENT_MODE, PORT} from './constants.js'
-import {app} from './app.js'
-import { connectDB, sequelize } from './config/db.js';
+const express = require('express');
+const {PORT} = require('./config');
+const apiRoutes = require('./routes');
 
+const app = express();
 
-//connect db
-connectDB();
+app.use('/api', apiRoutes);
 
-//sync DB
-if(ENVIRONMENT_MODE === "DEV"){
-    async () => {
-        await sequelize.sync({alter:true})
-        console.log("database synchronized");
-        
-    }
-}
-
-app.listen(PORT, ()=>{
-    console.log("Server is listening");
-})
+app.listen(PORT, () => {
+    console.log(`Server is running on port ${PORT}`);
+});
